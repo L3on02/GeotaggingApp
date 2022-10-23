@@ -32,16 +32,16 @@
                     <legend>Add a new Geo Tag:</legend>
 
                     <label for="tagFormLatitude">Latitude:</label>
-                    <input type="text" id="tagFormLatitude" name="tagFormLatitude" pattern="[0-9.]+" required="required" placeholder="e.g. 14.1025">
+                    <input type="text" id="tagFormLatitude" name="formLatitude" pattern="[0-9.]+" required="required" placeholder="e.g. 14.1025">
 
                     <label for="tagFormLongitude">Longitude:</label>
-                    <input type="text" id="tagFormLongitude" name="tagFormLongitude" pattern="[0-9.]+" required="required" placeholder="e.g. 88.471">
+                    <input type="text" id="tagFormLongitude" name="formLongitude" pattern="[0-9.]+" required="required" placeholder="e.g. 88.471">
                 
                     <label for="tagFormName">Name:</label> 
-                    <input type="text" id="tagFormName" name="tagFormName" minlength="1" maxlength="10" required="required" placeholder="e.g. Karlsruhe">
+                    <input type="text" id="tagFormName" name="formName" pattern="[a-zA-Z]+" maxlength="10" required="required" placeholder="e.g. Karlsruhe">
 
                     <label for="tagFormHashtag">Hashtag:</label>
-                    <input type="text" id="tagFormHashtag" name="tagFormHashtag" pattern="#[a-zA-Z]+" maxlength="11" placeholder="e.g. #ka"> <!-- maxlength auf 11 wegen dem Hashtag -->
+                    <input type="text" id="tagFormHashtag" name="formHashtag" pattern="#[a-zA-Z]+" maxlength="11" placeholder="e.g. #ka"> <!-- maxlength auf 11 wegen dem Hashtag -->
 
                     <input type="submit" id="tagFormSubmitButton" value="Add Tag">
                 </fieldset>
@@ -61,11 +61,11 @@
                     <legend>Search:</legend>
 
                     <label for="disFormSearch">Search term or keywords:</label>
-                    <input type="text" id="disFormSearch" name="disFormSearch" pattern="#?[a-zA-Z]+" maxlength="10" placeholder="e.g. Karlsruhe">
+                    <input type="text" id="disFormSearch" name="formSearch" pattern="#?[a-zA-Z]+" maxlength="10" placeholder="e.g. Karlsruhe">
                     
                     <!-- Die zwei Eingaben sind versteckt -->
-                    <input type="hidden" id="disFormLatitude" name="disFormLatitude" pattern="[0-9.]+" required="required" placeholder="e.g. 14.1025">
-                    <input type="hidden" id="disFormLongitude" name="disFormLongitude" pattern="[0-9.]+" required="required" placeholder="e.g. 88.471">
+                    <input type="hidden" id="disFormLatitude" name="formLatitude" pattern="[0-9.]+" required="required" placeholder="e.g. 14.1025">
+                    <input type="hidden" id="disFormLongitude" name="formLongitude" pattern="[0-9.]+" required="required" placeholder="e.g. 88.471">
 
                     <input type="submit" id="disFormSubmitButton" value="Search" >
                 </fieldset>
