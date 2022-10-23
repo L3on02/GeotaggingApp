@@ -28,19 +28,23 @@
             <!-- ############### VS1Lab 1a Form 1 Start -->
             <form id="tag-form" action="/tagging" method="post">
 
-                <label for="flatitude">Latitude:</label>
-                <input type="number" id="flatitude" name="flatitude">
+                <fieldset id="fieldsetTag">
+                    <legend>Add a new Geo Tag:</legend>
 
-                <label for="flongitude">Longitude:</label>
-                <input type="number" id="flongitude" name="flongitude">
-                
-                <label for="fname">Name:</label>
-                <input type="text" id="fname" name="fname" placeholder="e.g. Karlsruhe">
+                    <label for="tagFormLatitude">Latitude:</label>
+                    <input type="text" id="tagFormLatitude" name="tagFormLatitude" pattern="[0-9.]+" required="required" placeholder="e.g. 14.1025">
 
-                <label for="fhashtag">Hashtag:</label>
-                <input type="text" id="fhashtag" name="fhashtag" placeholder="e.g. #ka">
+                    <label for="tagFormLongitude">Longitude:</label>
+                    <input type="text" id="tagFormLongitude" name="tagFormLongitude" pattern="[0-9.]+" required="required" placeholder="e.g. 88.471">
                 
-                <input type="submit" id="submitButton" value="Add Tag">
+                    <label for="tagFormName">Name:</label>
+                    <input type="text" id="formName" name="tagFormName" minlength="1" maxlength="10" required="required" placeholder="e.g. Karlsruhe">
+
+                    <label for="tagFormHashtag">Hashtag:</label>
+                    <input type="text" id="tagFormHashtag" name="tagFormHashtag" pattern="#[a-zA-Z]+" maxlength="10" placeholder="e.g. #ka"> 
+
+                    <input type="submit" id="tagFormSubmitButton" value="Add Tag">
+                </fieldset>
 
             </form>
             <!-- ############### VS1Lab 1a Form 1 End -->
@@ -53,7 +57,14 @@
             <!-- ############### VS1Lab 1a Form 2 Start -->
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
-                <!-- ... your code here ... -->
+                <fieldset id="fieldsetDiscovery">
+                    <legend>Search:</legend>
+
+                    <label for="flatitude">Latitude:</label>
+                    <input type="number" id="flatitude" name="flatitude" placeholder="e.g. 14.1025">
+
+                    <input type="submit" id="submitButton" value="Add Tag">
+                </fieldset>
 
             </form>
             <!-- ############### VS1Lab 1a Form 2 End -->
