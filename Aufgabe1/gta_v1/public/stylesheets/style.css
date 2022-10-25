@@ -72,10 +72,7 @@ legend {
 .button {
   width: 100%; 
   display: block;
-}
-
-*/
-
+} */
 
 /* Grid styles (no changes required) */
 
@@ -168,6 +165,7 @@ legend {
   flex-direction: column;
   justify-content: space-between;
   padding: 5rem;
+  margin: 5rem 0rem 12rem 0rem;
 }
 
 /* ### TODO ### Styles for Discovery component */
@@ -177,6 +175,31 @@ legend {
   flex-direction: column;
   justify-content: space-between;
   padding: 5rem;
+  margin: 5rem;
+}
+
+.discovery__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.discovery__taglist {
+  padding: 0.5rem 0rem 0rem 0.5rem;
+}
+
+.discovery__results li {
+  color: deepskyblue;
+  border: 0.1rem solid gainsboro;
+  background-color: whitesmoke;
+  list-style-type: none;
+  margin: 0.1rem;
+  padding: 0.5rem;
+}
+
+.discovery__map {
+  display: flex;
+  flex-direction: column;
 }
 
 /* ### TODO ### Styles for Footer Component */
