@@ -46,7 +46,35 @@ a {
 
 /* ### TODO ### Styles for other HTML elements */
 
-/* ... your code here ... */
+label {
+  margin: 0rem;
+  padding: 0.5rem;
+}
+
+input {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  display: block;
+}
+
+fieldset {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+legend {
+  font-weight: bold;
+}
+
+/* Funktioniert leider nicht.
+   Sollte den Knopf so weit ausdehnen wie das Eingabefeld
+
+.button {
+  width: 100%; 
+  display: block;
+}
+
+*/
 
 
 /* Grid styles (no changes required) */
@@ -109,28 +137,56 @@ a {
 
 /* ### TODO ### Styles for Header Component */
 
-/* ... your code here ... */
+.header {
+  display: flex;
+  background-color: lightgray;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}
+
+.header__image {
+  width: 4rem;
+}
 
 
 /* ### TODO ### Styles for Main Component */
 
-/* ... your code here ... */
-
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}
 
 /* ### TODO ### Styles for Tagging component */
 
-/* ... your code here ... */
-
+.main__tagging {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem;
+}
 
 /* ### TODO ### Styles for Discovery component */
 
-/* ... your code here ... */
-
+.main__discovery {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5rem;
+}
 
 /* ### TODO ### Styles for Footer Component */
 
-/* ... your code here ... */
-
+footer {
+  display: flex;
+  padding: 3rem;
+  margin-top: auto;
+  background-color: lightgray;
+}
 
 /* ### TODO ### Media Queries */
 
