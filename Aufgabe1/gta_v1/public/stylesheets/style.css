@@ -46,7 +46,51 @@ a {
 
 /* ### TODO ### Styles for other HTML elements */
 
-/* ... your code here ... */
+.userInput {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+.submit {
+  margin-bottom: 0;
+}
+.submit:hover {
+  border-width: 2px;
+  border-radius: 4px;
+  border-color: black;
+  background-color: lightblue;
+  color:white;
+}
+
+
+.discovery__results {
+  list-style-type: none;
+  padding: 0.5rem;
+}
+.listElement {
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  background-color: #efefef;
+  color: #00B7FF;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 3px;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.fieldset {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-width: 2px;
+  border-radius: 4px;
+}
+
+.title {
+  padding: 0.5rem;
+}
 
 
 /* Grid styles (no changes required) */
@@ -109,28 +153,46 @@ a {
 
 /* ### TODO ### Styles for Header Component */
 
-/* ... your code here ... */
+header {
+  display: flex;
+  padding: 2rem;
+  background-color: lightgray;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.header__image {
+  width: 3rem;
+}
 
 
 /* ### TODO ### Styles for Main Component */
-
-/* ... your code here ... */
-
+main{
+  padding: 2rem;
+}
 
 /* ### TODO ### Styles for Tagging component */
+.tagging {
 
-/* ... your code here ... */
+}
 
 
 /* ### TODO ### Styles for Discovery component */
+.discovery{
 
-/* ... your code here ... */
+}
+
 
 
 /* ### TODO ### Styles for Footer Component */
 
-/* ... your code here ... */
-
+footer {
+  display: flex;
+  padding: 2rem;
+  margin-top: auto;
+  background-color: lightgray;
+}
 
 /* ### TODO ### Media Queries */
 
