@@ -190,6 +190,7 @@ main{
 footer {
   display: flex;
   padding: 2rem;
+  font-weight: bold;
   margin-top: auto;
   background-color: lightgray;
 }
