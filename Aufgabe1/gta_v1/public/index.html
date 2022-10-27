@@ -8,91 +8,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <link rel="stylesheet" href="./stylesheets/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <header class="header">
-        <img src="./images/location.png" class="header__image" alt="an image of a map and location">
-        <h1 class="header__title">GeoTagApp</h1>
-        <nav class="header__navigation">
-            <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
-        </nav>
-    </header>
+<header class="header">
+    <img src="./images/location.png" class="header__image" alt="an image of a map and location">
+    <h1 class="header__title">GeoTagApp</h1>
+    <nav class="header__navigation">
+        <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
+    </nav>
+</header>
 
-    <main class="main row">
-        <section class="main__tagging tagging col-3">
-            <h2 class="title">Tagging</h2>
+<main class="main row">
+    <section class="main__tagging tagging col-3">
+        <h2 class="title">Tagging</h2>
 
-            <!-- ############### VS1Lab 1a Form 1 Start -->
-            <form id="tag-form" action="/tagging" method="post">
+        <!-- ############### VS1Lab 1a Form 1 Start -->
+        <form id="tag-form" action="/tagging" method="post">
 
-                <fieldset class="fieldset" id="tagFormFieldset">
-                    <legend id="legendTag">Add a new Geo Tag:</legend>
+            <fieldset class="fieldset" id="tagFormFieldset">
+                <legend id="legendTag">Add a new Geo Tag:</legend>
 
-                    <label for="tagFormLatitude">Latitude:</label>
-                    <input type="text" id="tagFormLatitude" class="userInput" name="formLatitude" value="49.01379" readonly>
+                <label for="tagFormLatitude">Latitude:</label>
+                <input type="text" id="tagFormLatitude" class="userInput" name="formLatitude" value="49.01379" readonly>
 
-                    <label for="tagFormLongitude">Longitude:</label>
-                    <input type="text" id="tagFormLongitude" class="userInput" name="formLongitude" value="8.390071" readonly>
-                
-                    <label for="tagFormName">Name:</label> 
-                    <input type="text" id="tagFormName" class="userInput" name="formName" pattern="[a-zA-Z]+" maxlength="10" required="required" placeholder="e.g. Berlin">
+                <label for="tagFormLongitude">Longitude:</label>
+                <input type="text" id="tagFormLongitude" class="userInput" name="formLongitude" value="8.390071"
+                       readonly>
 
-                    <label for="tagFormHashtag">Hashtag:</label>
-                    <input type="text" id="tagFormHashtag" class="userInput" name="formHashtag" pattern="#[a-zA-Z]+|#" maxlength="11" placeholder="e.g. #ber"> <!-- maxlength auf 11 wegen dem Hashtag -->
+                <label for="tagFormName">Name:</label>
+                <input type="text" id="tagFormName" class="userInput" name="formName" pattern="[a-zA-Z]+" maxlength="10"
+                       required="required" placeholder="e.g. Berlin">
 
-                    <input type="submit" id="tagFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Add Tag">
-                </fieldset>
+                <label for="tagFormHashtag">Hashtag:</label>
+                <input type="text" id="tagFormHashtag" class="userInput" name="formHashtag" pattern="#[a-zA-Z]+|#"
+                       maxlength="11" placeholder="e.g. #ber"> <!-- maxlength auf 11 wegen dem Hashtag -->
 
-            </form>
-            <!-- ############### VS1Lab 1a Form 1 End -->
+                <input type="submit" id="tagFormSubmitButton" class="userInput submit" name="formSubmitButton"
+                       value="Add Tag">
+            </fieldset>
 
-        </section>
+        </form>
+        <!-- ############### VS1Lab 1a Form 1 End -->
 
-        <section class="main__discovery discovery col-9">
-            <h2 class="title">Discovery</h2>
+    </section>
 
-            <!-- ############### VS1Lab 1a Form 2 Start -->
-            <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
+    <section class="main__discovery discovery col-9">
+        <h2 class="title">Discovery</h2>
 
-                <fieldset class="fieldset" id="disFormFieldset">
-                    <legend>Search:</legend>
+        <!-- ############### VS1Lab 1a Form 2 Start -->
+        <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
+            <fieldset class="fieldset" id="disFormFieldset">
+                <legend>Search:</legend>
+                <div class="col-4">
                     <label for="disFormSearch">Search term or keywords:</label>
-                    <input type="text" id="disFormSearch" class="userInput" name="formSearch" pattern="#?[a-zA-Z]+" maxlength="10" placeholder="e.g. Berlin">
-                    
+                    <input type="text" id="disFormSearch" class="userInput" name="formSearch" pattern="#?[a-zA-Z]+"
+                           maxlength="10" placeholder="e.g. Berlin">
+
                     <!-- Die zwei Eingaben sind versteckt -->
-                    <input type="hidden" id="disFormLatitude" name="formLatitude" required="required" placeholder="e.g. 49.01379">
-                    <input type="hidden" id="disFormLongitude" name="formLongitude" required="required" placeholder="e.g. 8.390071">
+                    <input type="hidden" id="disFormLatitude" name="formLatitude" required="required"
+                           placeholder="e.g. 49.01379">
+                    <input type="hidden" id="disFormLongitude" name="formLongitude" required="required"
+                           placeholder="e.g. 8.390071">
 
-                    <input type="submit" id="disFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Search" >
-                </fieldset>
-
-            </form>
-            <!-- ############### VS1Lab 1a Form 2 End -->
-
-            <div class="discovery__wrapper row">
-                <div class="discovery__taglist col-6">
-                    <ul class="discovery__results" id="discoveryResults">
-                        <li class="listElement">Castle (49.01379, 8.404435) #sight</li>
-                        <li class="listElement">IWI (49.01379, 8.390071) #edu</li>
-                    </ul>
+                    <input type="submit" id="disFormSubmitButton" class="userInput submit" name="formSubmitButton"
+                           value="Search">
                 </div>
+            </fieldset>
 
-                <div class="discovery__map">
-                    <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
-                    <span>Result map</span>
-                </div>
+        </form>
+        <!-- ############### VS1Lab 1a Form 2 End -->
+
+        <div class="discovery__wrapper row">
+            <div class="discovery__taglist col-4">
+                <ul class="discovery__results" id="discoveryResults">
+                    <li class="listElement">Castle (49.01379, 8.404435) #sight</li>
+                    <li class="listElement">IWI (49.01379, 8.390071) #edu</li>
+                </ul>
             </div>
-        </section>
 
-    </main>
+            <div class="discovery__map">
+                <img src="./images/mapview.jpg" alt="a map with locations" id="mapView"/>
+                <span>Result map</span>
+            </div>
+        </div>
+    </section>
 
-    <footer class="footer">
-        <span>(c) 2021/22 HKA_IWI_VSYS</span>
-    </footer>
+</main>
+
+<footer class="footer">
+    <span>(c) 2021/22 HKA_IWI_VSYS</span>
+</footer>
 </body>
 
 </html>
