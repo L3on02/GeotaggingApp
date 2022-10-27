@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
     <link rel="stylesheet" href="./stylesheets/style.css"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -85,13 +84,19 @@
         <div class="discovery__wrapper row">
             <div class="discovery__taglist col-4">
                 <ul class="discovery__results" id="discoveryResults">
-                    <li class="listElement">Castle (49.01379, 8.404435) #sight</li>
-                    <li class="listElement">IWI (49.01379, 8.390071) #edu</li>
+                    <li class="listElement">
+                        <div>Castle (49.01379, 8.404435) </div>
+                        <div> #sight </div>
+                    </li>
+                    <li class="listElement">
+                        <div>IWI (49.01379, 8.390071) </div>
+                        <div> #edu </div>
+                    </li>
                 </ul>
             </div>
 
-            <div class="discovery__map">
-                <img src="./images/mapview.jpg" alt="a map with locations" id="mapView"/>
+            <div class="discovery__map col-8">
+                <img src="./images/mapview.jpg" class="col-12" alt="a map with locations" id="mapView"/>
                 <span>Result map</span>
             </div>
         </div>
