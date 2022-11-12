@@ -44,7 +44,7 @@ a {
   color: var(--link-color);
 }
 
-/* ### TODO ### Styles for other HTML elements */
+/* Styles for other HTML elements */
 
 .userInput {
   width: 100%;
@@ -133,7 +133,7 @@ a {
 }
 
 
-/* ### TODO ### Styles for Header Component */
+/* Styles for Header Component */
 
 header {
   display: flex;
@@ -149,16 +149,16 @@ header {
 }
 
 
-/* ### TODO ### Styles for Main Component */
+/* Styles for Main Component */
 main{
   padding: 2rem;
 }
 
-/* ### TODO ### Styles for Tagging component */
+/* Styles for Tagging component */
 .tagging {
 }
 
-/* ### TODO ### Styles for Discovery component */
+/* Styles for Discovery component */
 .discovery{
 }
 
@@ -181,7 +181,7 @@ main{
   margin-bottom: 0.5rem;
 }
 
-/* ### TODO ### Styles for Footer Component */
+/* Styles for Footer Component */
 
 footer {
   display: flex;
@@ -191,7 +191,7 @@ footer {
   background-color: lightgray;
 }
 
-/* ### TODO ### Media Queries */
+/* Media Queries */
 
 @media screen and (max-width: 850px) {
   .discovery__map{
