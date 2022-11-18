@@ -113,7 +113,7 @@ function updateLocation() {
         document.getElementById("disFormLatitude").value = location.latitude;
         document.getElementById("disFormLongitude").value = location.longitude;
     }
-    document.getElementById("tagFormLatitude").value = "test";
+    document.getElementById("tagFormLatitude").value = "test"; //wenns funktioniert das hier löschen
 }
 
 
