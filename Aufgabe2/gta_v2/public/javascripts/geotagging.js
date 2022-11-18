@@ -103,10 +103,9 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-   
-    
+
     let location = new LocationHelper();
-    LocationHelper.findLocation(location);
+    LocationHelper.findLocation(location); //TODO: Fix das David
     if (!(location.longitude === undefined || location.latitude === undefined)) {
         document.getElementById("tagFormLongitude").value = "test";
         document.getElementById("tagFormLatitude").value =  location.latitude;
