@@ -13,21 +13,14 @@ console.log("The geoTagging script is going to start...");
  * A class to help using the HTML5 Geolocation API.
  */
 class LocationHelper {
-    // Location values for latitude and longitude are private properties to protect them from changes.
+    // Location values for latitude and loFgeongitude are private properties to protect them from changes.
     #latitude = '';
-
+    #longitude = '';
     /**
      * Getter method allows read access to privat location property.
      */
-    get latitude() {
-        return this.#latitude;
-    }
-
-    #longitude = '';
-
-    get longitude() {
-        return this.#longitude;
-    }
+    get latitude() { return this.#latitude; }
+    get longitude() { return this.#longitude; }
 
     /**
      * The 'findLocation' method requests the current location details through the geolocation API.
@@ -98,27 +91,23 @@ class MapManager {
 }
 
 /**
- * TODO: 'updateLocation'
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-function updateLocation() {
-
-    let location = new LocationHelper();
-    LocationHelper.findLocation(location); //TODO: Fix das David
-    if (!(location.longitude === undefined || location.latitude === undefined)) {
-        document.getElementById("tagFormLongitude").value = "test";
+function updateLocation(location) {
+    if (location.longitude !== undefined && location.latitude !== undefined) {
         document.getElementById("tagFormLatitude").value =  location.latitude;
         document.getElementById("tagFormLongitude").value = location.longitude;
         document.getElementById("disFormLatitude").value = location.latitude;
         document.getElementById("disFormLongitude").value = location.longitude;
     }
-    document.getElementById("tagFormLatitude").value = "test"; //wenns funktioniert das hier löschen
+    let mapMan = new MapManager("IdmV6A5bz5rQU9rQ7KEingAEoaPqIFTA");
+    let mapUrl = mapMan.getMapUrl(location.latitude, location.longitude);
+    document.getElementById("mapView").src = mapUrl;
+
 }
 
 
 // Wait for the page to fully load its DOM content, then call updateLocation
-document.addEventListener("DOMContentLoaded", () => {
-    updateLocation();
-});
+document.addEventListener("DOMContentLoaded", LocationHelper.findLocation(updateLocation));
 
