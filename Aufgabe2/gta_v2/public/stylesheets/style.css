@@ -74,28 +74,6 @@ a {
   padding: 0.5rem;
 }
 
-input {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  display: block;
-}
-
-fieldset {
-  margin: 0.5rem;
-  padding: 0.5rem;
-}
-
-legend {
-  font-weight: bold;
-}
-
-/* Funktioniert leider nicht.
-   Sollte den Knopf so weit ausdehnen wie das Eingabefeld
-
-.button {
-  width: 100%; 
-  display: block;
-} */
 
 /* Grid styles (no changes required) */
 
