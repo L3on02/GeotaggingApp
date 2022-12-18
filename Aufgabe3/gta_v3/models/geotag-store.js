@@ -4,7 +4,8 @@
  * This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation.
  */
-
+const GeoTag = require("./geotag");
+const GeoTagExamples = require("./geotag-examples");
 /**
  * A class for in-memory-storage of geotags
  * 
@@ -24,9 +25,43 @@
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
 class InMemoryGeoTagStore{
+    static #geotags = [];
 
-    // TODO: ... your code here ...
+    constructor() {
+        this.populateWithExamples();
+    }
 
+    addGeoTag(lat, long, name, hash) {
+        this.#geotags.push(new GeoTag(name,hash,long,lat));
+    }
+
+    removeGeoTag(name) {
+        for(let i = 0; i < this.#geotags.length;) {
+            if(this.#geotags[i].name === name) {
+                this.#geotags.splice(i, 1);
+            }else {
+                i++;
+            }
+        }
+    }
+
+    getNearbyGeoTags(lat, long, rad) {
+        return this.#geotags.filter((tag) => {
+            return Math.sqrt(Math.pow(tag.latitude-lat,2)) + Math.pow(tag.longitude-lat,2) <= rad;
+        });
+    }
+
+    searchNearbyGeoTags(lat, long, search, rad) {
+        return this.getNearbyGeoTags(lat, long, rad).filter((tag) => {
+            return tag.name.toLowerCase().includes(search) || tag.hashtag.toLowerCase().includes(search);
+        });
+    }
+
+
+    populateWithExamples(name, lat, long, hashtag) {
+        for(let element in GeoTagExamples.tagList) {
+            this.addGeoTag(element[1], element[2], element[0], element[3]);
+        }
+    }
 }
-
 module.exports = InMemoryGeoTagStore
