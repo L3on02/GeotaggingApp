@@ -25,10 +25,13 @@ const GeoTagExamples = require("./geotag-examples");
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
 class InMemoryGeoTagStore{
-    static #geotags = [];
+    #geotags = [];
 
     constructor() {
         this.populateWithExamples();
+    }
+    get returnGeoTag(){
+        return this.#geotags;
     }
 
     addGeoTag(lat, long, name, hash) {

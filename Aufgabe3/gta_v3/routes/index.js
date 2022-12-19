@@ -9,27 +9,30 @@
 /**
  * Define module dependencies.
  */
-
+const GeoTag = require('../models/geotag');
 const express = require('express');
+const GeoTagStore = require('../models/geotag-store');
 const router = express.Router();
+const store = new GeoTagStore();
+const rad = 1;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
  * It represents geotags.
  * 
- * TODO: implement the module in the file "../models/geotag.js"
+ *  implement the module in the file "../models/geotag.js"
  */
 // eslint-disable-next-line no-unused-vars
-const GeoTag = require('../models/geotag');
+
 
 /**
  * The module "geotag-store" exports a class GeoTagStore. 
  * It provides an in-memory store for geotag objects.
  * 
- * TODO: implement the module in the file "../models/geotag-store.js"
+ *  implement the module in the file "../models/geotag-store.js"
  */
 // eslint-disable-next-line no-unused-vars
-const GeoTagStore = require('../models/geotag-store');
+
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -42,7 +45,11 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', {
+    taglist: [],
+    latitude: "",
+    longitude: ""
+  })
 });
 
 /**
@@ -60,6 +67,20 @@ router.get('/', (req, res) => {
  * by radius around a given location.
  */
 
+router.post('/tagging', (req, res) => {
+
+  let lat = req.body["tagFormLatitude"];
+  let long = req.body["tagFormLongitude"];
+  let name = req.body["tagFormName"];
+  let hash = req.body["tagFormHashtag"];
+  store.addGeoTag(lat, long, name, hash);
+
+  res.render('index', {
+    taglist: store.returnGeoTag,//store.getNearbyGeoTags(lat, long, rad),
+    latitude: lat,
+    longitude:long
+  });
+});
 // TODO: ... your code here ...
 
 /**
