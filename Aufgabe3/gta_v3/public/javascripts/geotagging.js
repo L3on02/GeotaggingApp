@@ -13,7 +13,7 @@ console.log("The geoTagging script is going to start...");
  * A class to help using the HTML5 Geolocation API.
  */
 class LocationHelper {
-    // Location values for latitude and loFgeongitude are private properties to protect them from changes.
+    // Location values for latitude and longitude are private properties to protect them from changes.
     #latitude = '';
     #longitude = '';
     /**

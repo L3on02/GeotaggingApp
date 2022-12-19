@@ -30,12 +30,13 @@ class InMemoryGeoTagStore{
     constructor() {
         this.populateWithExamples();
     }
-    get returnGeoTag(){
+
+    get returnGeoTags(){
         return this.#geotags;
     }
 
     addGeoTag(lat, long, name, hash) {
-        this.#geotags.push(new GeoTag(name,hash,long,lat));
+        this.#geotags.push(new GeoTag(lat,long,name,hash));
     }
 
     removeGeoTag(name) {
@@ -49,22 +50,34 @@ class InMemoryGeoTagStore{
     }
 
     getNearbyGeoTags(lat, long, rad) {
-        return this.#geotags.filter((tag) => {
-            return Math.sqrt(Math.pow(tag.latitude-lat,2)) + Math.pow(tag.longitude-lat,2) <= rad;
-        });
+        let result = [];
+        for(let i = 0; i < this.#geotags.length; i++){
+            if ((this.#distance(lat,long,this.#geotags[i])<=rad)){
+                result.push(this.#geotags[i]);
+            }
+        }
+        return result;
     }
 
     searchNearbyGeoTags(lat, long, search, rad) {
-        return this.getNearbyGeoTags(lat, long, rad).filter((tag) => {
-            return tag.name.toLowerCase().includes(search) || tag.hashtag.toLowerCase().includes(search);
-        });
+        let result = [];
+        for(let i = 0; i < this.#geotags.length; i++) {
+            if (this.#distance(lat,long,this.#geotags[i]) <= rad && (this.#geotags[i].name.toLowerCase().includes(search.toLowerCase()) || this.#geotags[i].hashtag.toLowerCase().includes(search.toLowerCase()))){
+                result.push(this.#geotags[i]);
+            }
+        }
+        return result;
+    }
+
+    #distance(lat,long,tag) {
+        return Math.sqrt(Math.pow(tag.latitude-lat,2) + Math.pow(tag.longitude-long,2));
     }
 
 
-    populateWithExamples(name, lat, long, hashtag) {
-        for(let element in GeoTagExamples.tagList) {
+    populateWithExamples() {
+        GeoTagExamples.tagList.forEach(element => {
             this.addGeoTag(element[1], element[2], element[0], element[3]);
-        }
+        })
     }
 }
 module.exports = InMemoryGeoTagStore

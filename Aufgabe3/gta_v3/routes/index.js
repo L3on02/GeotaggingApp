@@ -9,30 +9,12 @@
 /**
  * Define module dependencies.
  */
-const GeoTag = require('../models/geotag');
+// const GeoTag = require('../models/geotag');
 const express = require('express');
 const GeoTagStore = require('../models/geotag-store');
 const router = express.Router();
 const store = new GeoTagStore();
 const rad = 1;
-
-/**
- * The module "geotag" exports a class GeoTagStore. 
- * It represents geotags.
- * 
- *  implement the module in the file "../models/geotag.js"
- */
-// eslint-disable-next-line no-unused-vars
-
-
-/**
- * The module "geotag-store" exports a class GeoTagStore. 
- * It provides an in-memory store for geotag objects.
- * 
- *  implement the module in the file "../models/geotag-store.js"
- */
-// eslint-disable-next-line no-unused-vars
-
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -42,13 +24,11 @@ const rad = 1;
  *
  * As response, the ejs-template is rendered without geotag objects.
  */
-
-// TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
   res.render('index', {
-    taglist: [],
-    latitude: "",
-    longitude: ""
+    taglist: store.returnGeoTags,
+    ejs_latitude: "",
+    ejs_longitude: ""
   })
 });
 
@@ -66,22 +46,20 @@ router.get('/', (req, res) => {
  * To this end, "GeoTagStore" provides a method to search geotags 
  * by radius around a given location.
  */
-
 router.post('/tagging', (req, res) => {
 
-  let lat = req.body["tagFormLatitude"];
-  let long = req.body["tagFormLongitude"];
-  let name = req.body["tagFormName"];
-  let hash = req.body["tagFormHashtag"];
+  let lat = req.body.formLatitude;
+  let long = req.body.formLongitude;
+  let name = req.body.formName;
+  let hash = req.body.formHashtag;
   store.addGeoTag(lat, long, name, hash);
 
   res.render('index', {
-    taglist: store.returnGeoTag,//store.getNearbyGeoTags(lat, long, rad),
-    latitude: lat,
-    longitude:long
+    taglist: store.getNearbyGeoTags(lat, long, rad),
+    ejs_latitude: lat,
+    ejs_longitude:long
   });
 });
-// TODO: ... your code here ...
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -98,7 +76,17 @@ router.post('/tagging', (req, res) => {
  * To this end, "GeoTagStore" provides methods to search geotags 
  * by radius and keyword.
  */
+router.post('/discovery', (req, res) => {
 
-// TODO: ... your code here ...
+  let search = req.body.formSearch;
+  let lat = req.body.formLatitude;
+  let long = req.body.formLongitude;
+
+  res.render('index', {
+    taglist: store.searchNearbyGeoTags(lat, long, search, rad),
+    ejs_latitude: lat,
+    ejs_longitude:long
+  });
+});
 
 module.exports = router;

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 
-<!-- File origin: VS1LAB A1a -->
-
 <html lang="en">
 
 <head>
@@ -16,7 +14,7 @@
     <img src="./images/location.png" class="header__image" alt="an image of a map and location">
     <h1 class="header__title">GeoTagApp</h1>
     <nav class="header__navigation">
-        <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
+        <a href="/">About</a> | <a href="/">Help</a> | <a href="/">Home</a>
     </nav>
 </header>
 
@@ -24,17 +22,16 @@
     <section class="main__tagging tagging col-3">
         <h2 class="title">Tagging</h2>
 
-        <!-- ############### VS1Lab 1a Form 1 Start -->
         <form id="tag-form" action="/tagging" method="post">
 
             <fieldset class="fieldset" id="tagFormFieldset">
                 <legend id="legendTag">Add a new Geo Tag:</legend>
 
                 <label for="tagFormLatitude">Latitude:</label>
-                <input type="text" id="tagFormLatitude" class="userInput" name="formLatitude" value="<%= latitude%>" readonly>
+                <input type="text" id="tagFormLatitude" class="userInput" name="formLatitude" value="<%= ejs_latitude%>" readonly>
 
                 <label for="tagFormLongitude">Longitude:</label>
-                <input type="text" id="tagFormLongitude" class="userInput" name="formLongitude" value="<%= longitude%>" readonly>
+                <input type="text" id="tagFormLongitude" class="userInput" name="formLongitude" value="<%= ejs_longitude%>" readonly>
 
                 <label for="tagFormName">Name:</label>
                 <input type="text" id="tagFormName" class="userInput" name="formName" pattern="[a-zA-Z]+" maxlength="10" required="required" placeholder="e.g. Berlin">
@@ -47,14 +44,12 @@
             </fieldset>
 
         </form>
-        <!-- ############### VS1Lab 1a Form 1 End -->
 
     </section>
 
     <section class="main__discovery discovery col-9">
         <h2 class="title">Discovery</h2>
 
-        <!-- ############### VS1Lab 1a Form 2 Start -->
         <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
             <fieldset class="fieldset" id="disFormFieldset">
@@ -64,24 +59,21 @@
                     <input type="text" id="disFormSearch" class="userInput" name="formSearch" pattern="#?[a-zA-Z]+" maxlength="10" placeholder="e.g. Berlin">
 
                     <!-- Die zwei Eingaben sind versteckt -->
-                    <input type="hidden" id="disFormLatitude" name="formLatitude" required="required" value="null">
-                    <input type="hidden" id="disFormLongitude" name="formLongitude" required="required" value="null">
+                    <input type="hidden" id="disFormLatitude" name="formLatitude" required="required" value="<%= ejs_latitude%>">
+                    <input type="hidden" id="disFormLongitude" name="formLongitude" required="required" value="<%= ejs_longitude%>">
 
                     <input type="submit" id="disFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Search">
                 </div>
             </fieldset>
 
         </form>
-        <!-- ############### VS1Lab 1a Form 2 End -->
 
         <div class="discovery__wrapper row">
             <div class="discovery__taglist col-4">
                 <ul class="discovery__results" id="discoveryResults">
-                    <li class="listElement">
                         <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
-                               <li><%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %> </li>
+                               <li class="listElement"><%= gtag.name %> <br> (<%= gtag.latitude %>, <%= gtag.longitude %>) <br> <%= gtag.hashtag %> </li>
                         <% }); %>
-                    </li>
                 </ul>
             </div>
 
