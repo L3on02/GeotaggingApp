@@ -71,14 +71,14 @@
         <div class="discovery__wrapper row">
             <div class="discovery__taglist col-4">
                 <ul class="discovery__results" id="discoveryResults">
-                        <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
+                        <% if (ejs_taglist !== undefined) ejs_taglist.forEach(function(gtag) { %>
                                <li class="listElement"><%= gtag.name %> <br> (<%= gtag.latitude %>, <%= gtag.longitude %>) <br> <%= gtag.hashtag %> </li>
                         <% }); %>
                 </ul>
             </div>
 
             <div class="discovery__map col-8">
-                <img src="./images/mapview.jpg" class="col-12" alt="a map with locations" id="mapView"/>
+                <img src="./images/mapview.jpg" class="col-12" alt="a map with locations" id="mapView" data-tags="<%= json_taglist%>"/>
                 <span>Result map</span>
             </div>
         </div>

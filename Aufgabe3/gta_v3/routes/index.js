@@ -14,7 +14,7 @@ const express = require('express');
 const GeoTagStore = require('../models/geotag-store');
 const router = express.Router();
 const store = new GeoTagStore();
-const rad = 1;
+const rad = 10;
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -25,10 +25,13 @@ const rad = 1;
  * As response, the ejs-template is rendered without geotag objects.
  */
 router.get('/', (req, res) => {
+  const taglist = store.returnGeoTags;
+  console.log(taglist);
   res.render('index', {
-    taglist: store.returnGeoTags,
+    ejs_taglist: taglist,
     ejs_latitude: "",
-    ejs_longitude: ""
+    ejs_longitude: "",
+    json_taglist: JSON.stringify(taglist)
   })
 });
 
@@ -54,10 +57,13 @@ router.post('/tagging', (req, res) => {
   let hash = req.body.formHashtag;
   store.addGeoTag(lat, long, name, hash);
 
+  const taglist = store.getNearbyGeoTags(lat, long, rad);
+
   res.render('index', {
-    taglist: store.getNearbyGeoTags(lat, long, rad),
+    ejs_taglist: taglist,
     ejs_latitude: lat,
-    ejs_longitude:long
+    ejs_longitude:long,
+    json_taglist: JSON.stringify(taglist)
   });
 });
 
@@ -81,11 +87,13 @@ router.post('/discovery', (req, res) => {
   let search = req.body.formSearch;
   let lat = req.body.formLatitude;
   let long = req.body.formLongitude;
+  const taglist = store.searchNearbyGeoTags(lat, long, search, rad);
 
   res.render('index', {
-    taglist: store.searchNearbyGeoTags(lat, long, search, rad),
+    ejs_taglist: taglist,
     ejs_latitude: lat,
-    ejs_longitude:long
+    ejs_longitude:long,
+    json_taglist: JSON.stringify(taglist)
   });
 });
 

@@ -22,6 +22,14 @@ class GeoTag {
         this.#latitude = latitude;
     }
 
+    toJSON() {
+        return {
+            name: this.#name,
+            latitude: this.#latitude,
+            longitude: this.#longitude,
+            hashtag: this.#hashtag
+        }
+    }
     get name() {
         return this.#name;
     }
