@@ -24,6 +24,7 @@ const GeoTagExamples = require("./geotag-examples");
  * - The proximity constrained is the same as for 'getNearbyGeoTags'.
  * - Keyword matching should include partial matches from name or hashtag fields. 
  */
+var geotag_id = 0; //Eine globale numerische Identifikation fuer die GeoTags
 class InMemoryGeoTagStore{
     #geotags = [];
 
@@ -36,7 +37,8 @@ class InMemoryGeoTagStore{
     }
 
     addGeoTag(lat, long, name, hash) {
-        this.#geotags.push(new GeoTag(lat,long,name,hash));
+        this.#geotags.push(new GeoTag(lat,long,name,hash,geotag_id));
+        geotag_id += 1;
     }
 
     removeGeoTag(name) {
@@ -79,5 +81,49 @@ class InMemoryGeoTagStore{
             this.addGeoTag(element[1], element[2], element[0], element[3]);
         })
     }
+
+    //Wegen Aufgabe 4 wurden folgende Methoden noch hinzugefuegt
+    //Gibt einen Array mit allen GeoTags, die 'nameToSearch' in ihrem Namen oder Hashtag haben, zurueck
+    getGeoTagByName(nameToSearch) {
+        let result = [];
+
+        for(let i = 0; i < this.#geotags.length; i++) {
+            if (this.#geotags[i].name.toLowerCase().includes(nameToSearch.toLowerCase()) || 
+                this.#geotags[i].hashtag.toLowerCase().includes(nameToSearch.toLowerCase())){
+                result.push(this.#geotags[i]);
+            }
+        }
+
+        return result;
+    }
+
+    //Gibt den GeoTag mit der Id 'idToSearch' zuerueck
+    getGeoTagById(idToSearch) {
+        let geotagToReturn = "";
+
+        let i = 0;
+        let found = false;
+        while (!found) {
+            if (this.#geotags[i].id == idToSearch){
+                geotagToReturn = this.#geotags[i];
+                found = true;
+            }
+
+            i += 1;
+        }
+
+        return geotagToReturn;
+    }
+
+    //Aendert die Attribute von einem GeoTag mit der Id 'id' zu den Attributen vom GeoTag 'newGeoTag'
+    changeGeoTagOf(id, newGeoTag) {
+        let geoTagToChange = this.getGeoTagById(id);
+
+        geoTagToChange.name      = newGeoTag.name;
+        geoTagToChange.latitude  = newGeoTag.latitude;
+        geoTagToChange.longitude = newGeoTag.longitude;
+        geoTagToChange.hashtag   = newGeoTag.hashtag;
+    }
 }
+
 module.exports = InMemoryGeoTagStore

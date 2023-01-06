@@ -11,7 +11,9 @@
  */
 
 const express = require('express');
-//const GeoTagStore = require('../models/geotag-store');
+
+const GeoTagStore = require('../models/geotag-store');
+
 const router = express.Router();
 const store = new GeoTagStore();
 const rad = 10;
@@ -28,7 +30,7 @@ const GeoTag = require('../models/geotag');
  * It provides an in-memory store for geotag objects.
  */
 // eslint-disable-next-line no-unused-vars
-const GeoTagStore = require('../models/geotag-store');
+//const GeoTagStore = require('../models/geotag-store');
 
 // App routes (A3)
 
@@ -55,6 +57,41 @@ router.get('/', (req, res) => {
   })
 });
 
+router.post('/tagging', (req, res) => {
+
+  let lat = req.body.formLatitude;
+  let long = req.body.formLongitude;
+  let name = req.body.formName;
+  let hash = req.body.formHashtag;
+  store.addGeoTag(lat, long, name, hash);
+
+  const taglist = store.getNearbyGeoTags(lat, long, rad);
+
+  res.render('index', {
+    ejs_taglist: taglist,
+    ejs_latitude: lat,
+    ejs_longitude:long,
+    json_taglist: JSON.stringify(taglist)
+  });
+});
+
+router.post('/discovery', (req, res) => {
+
+  let search = req.body.formSearch;
+  let lat = req.body.formLatitude;
+  let long = req.body.formLongitude;
+  const taglist = store.searchNearbyGeoTags(lat, long, search, rad);
+
+  res.render('index', {
+    ejs_taglist: taglist,
+    ejs_latitude: lat,
+    ejs_longitude:long,
+    json_taglist: JSON.stringify(taglist)
+  });
+});
+
+module.exports = router;
+
 // API routes (A4)
 
 /**
@@ -70,7 +107,24 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.get('/api/geotags', function (req, res) {
+  let listToReturn = [];
 
+  let searchterm = req.body.formSearch;
+  let latitude   = req.body.formLatitude;
+  let longitude  = req.body.formLongitude;
+
+  if (searchterm != null && typeof searchterm === 'string') {
+
+    if (latitude != null && typeof latitude === 'number' &&
+       longitude != null && typeof longitude === 'number') {
+        listToReturn = store.searchNearbyGeoTags(latitude, longitude, searchterm, rad);
+
+       } else listToReturn = store.getGeoTagByName(searchterm);
+  }
+
+  res.json(listToReturn);
+})
 
 /**
  * Route '/api/geotags' for HTTP 'POST' requests.
@@ -84,7 +138,18 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/api/geotags', function (req, res) {
+  let lat  = req.body.formLatitude;
+  let long = req.body.formLongitude;
+  let name = req.body.formName;
+  let hash = req.body.formHashtag;
 
+  store.addGeoTag(lat, long, name, hash);
+
+  let response = store.getNearbyGeoTags(lat, long, rad);
+
+  res.json(response);
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'GET' requests.
@@ -97,7 +162,14 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.get('/api/geotags/:id', function (req, res) {
+  let geoTag = store.getGeoTagById(req.params.id);
 
+  if (geoTag != null) {
+    res.json(geoTag.toJSON());
+
+  } else res.status(404).send(); //geoTag nicht gefunden, Error.
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'PUT' requests.
@@ -114,7 +186,18 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.put('/api/geotags/:id', function (req, res) {
+  let lat  = req.body.formLatitude;
+  let long = req.body.formLongitude;
+  let name = req.body.formName;
+  let hash = req.body.formHashtag;
+  let id   = req.params.id;
 
+  let geoTag = new GeoTag(lat, long, name, hash, d)
+
+  store.changeGeoTagOf(id, geoTag);
+  res.send(geoTag.toJSON());
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'DELETE' requests.
@@ -128,5 +211,14 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.delete('/api/geotags/:id', function (req, res) {
+  let geoTagToRemove = store.getGeoTagById(req.params.id);
+
+  res.json(geoTagToRemove.toJSON());
+
+  if (geoTagToRemove !== undefined) {
+    store.removeGeoTag(geoTagToRemove.name());
+  }
+});
 
 module.exports = router;

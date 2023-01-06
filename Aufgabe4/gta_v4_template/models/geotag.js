@@ -10,16 +10,18 @@
  * GeoTag objects should contain at least all fields of the tagging form.
  */
 class GeoTag {
-    #name = "";
-    #hashtag = "";
+    #name      = "";
+    #hashtag   = "";
     #longitude = 0;
-    #latitude = 0;
+    #latitude  = 0;
+    #id        = 0;
 
-    constructor(latitude,longitude,name,hashtag) {
+    constructor(latitude,longitude,name,hashtag,id) {
         this.#name = name;
         this.#hashtag = hashtag;
         this.#longitude = longitude;
         this.#latitude = latitude;
+        this.#id = id;
     }
 
     toJSON() {
@@ -41,6 +43,9 @@ class GeoTag {
     }
     get longitude() {
         return this.#longitude;
+    }
+    get id() {
+        return this.#id;
     }
 }
 
