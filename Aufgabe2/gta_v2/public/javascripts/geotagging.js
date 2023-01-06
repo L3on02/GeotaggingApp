@@ -96,17 +96,20 @@ class MapManager {
  */
 function updateLocation(location) {
     if (location.longitude !== undefined && location.latitude !== undefined) {
-        document.getElementById("tagFormLatitude").value =  location.latitude;
+        //Tag Form
+        document.getElementById("tagFormLatitude").value  = location.latitude;
         document.getElementById("tagFormLongitude").value = location.longitude;
-        document.getElementById("disFormLatitude").value = location.latitude;
+
+        //Discovery Form - Sind versteckt
+        document.getElementById("disFormLatitude").value  = location.latitude;
         document.getElementById("disFormLongitude").value = location.longitude;
     }
+    
     let mapMan = new MapManager("IdmV6A5bz5rQU9rQ7KEingAEoaPqIFTA");
     let mapUrl = mapMan.getMapUrl(location.latitude, location.longitude);
+
     document.getElementById("mapView").src = mapUrl;
-
 }
-
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", LocationHelper.findLocation(updateLocation));
