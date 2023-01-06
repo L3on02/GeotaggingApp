@@ -7,9 +7,6 @@
 
 /**
  * A class representing example geoTags at HKA
- * 
- * TODO: populate your InMemoryGeoTagStore with these tags
- * 
  */
 class GeoTagExamples {
     /**

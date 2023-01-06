@@ -32,6 +32,8 @@ class MapManager {
         let tagList = `${latitude},${longitude}|marker-start`;
         tagList += tags.reduce((acc, tag) => `${acc}||${tag.latitude},${tag.longitude}|flag-${tag.name}`, "");
 
+        console.log(tagList);
+
         const mapQuestUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${this.#apiKey}&size=600,400&zoom=${zoom}&center=${latitude},${longitude}&locations=${tagList}`;
         console.log("Generated MapQuest URL:", mapQuestUrl);
 
