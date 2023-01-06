@@ -11,7 +11,10 @@
  */
 
 const express = require('express');
+//const GeoTagStore = require('../models/geotag-store');
 const router = express.Router();
+const store = new GeoTagStore();
+const rad = 10;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
@@ -39,7 +42,17 @@ const GeoTagStore = require('../models/geotag-store');
  */
 
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  const taglist = store.returnGeoTags;
+
+  console.log(taglist);
+
+  res.render('index', {
+    ejs_taglist: taglist,
+    ejs_latitude: "",
+    ejs_longitude: "",
+    
+    json_taglist: JSON.stringify(taglist)
+  })
 });
 
 // API routes (A4)
