@@ -30,6 +30,7 @@ class GeoTag {
             latitude: this.#latitude,
             longitude: this.#longitude,
             hashtag: this.#hashtag
+            //id: this.#id 
         }
     }
     get name() {

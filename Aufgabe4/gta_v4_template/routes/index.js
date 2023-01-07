@@ -193,10 +193,10 @@ router.put('/api/geotags/:id', function (req, res) {
   let hash = req.body.formHashtag;
   let id   = req.params.id;
 
-  let geoTag = new GeoTag(lat, long, name, hash, d)
+  let changedGeoTag = new GeoTag(lat, long, name, hash, id)
 
-  store.changeGeoTagOf(id, geoTag);
-  res.send(geoTag.toJSON());
+  store.changeGeoTagOf(id, changedGeoTag);
+  res.send(changedGeoTag.toJSON());
 });
 
 /**

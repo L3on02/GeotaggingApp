@@ -97,7 +97,7 @@ class InMemoryGeoTagStore{
         return result;
     }
 
-    //Gibt den GeoTag mit der Id 'idToSearch' zuerueck
+    //Gibt den GeoTag mit der Id 'idToSearch' zurueck
     getGeoTagById(idToSearch) {
         let geotagToReturn = "";
 
