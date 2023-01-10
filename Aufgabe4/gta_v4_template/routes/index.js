@@ -110,18 +110,21 @@ module.exports = router;
 router.get('/api/geotags', function (req, res) {
   let listToReturn = [];
 
-  let searchterm = req.body.search;
-  let latitude   = req.body.latitude;
-  let longitude  = req.body.longitude;
+  //Ueberpruefen, dass die ganzen Attribute des Json nicht leer sind
+  let searchterm = (typeof req.body.searchterm !== 'undefined') ? req.body.searchterm : null;
+  let latitude   = (typeof req.body.latitude   !== 'undefined') ? req.body.latitude   : null;
+  let longitude  = (typeof req.body.longitude  !== 'undefined') ? req.body.longitude  : null;
 
-  if (searchterm != null && typeof searchterm === 'string') {
+  if (searchterm !== null && typeof searchterm === 'string') {
 
-    if (latitude != null && typeof latitude === 'number' &&
-       longitude != null && typeof longitude === 'number') {
+    if (latitude !== null && typeof latitude  === 'number' &&
+       longitude !== null && typeof longitude === 'number') {
+
         listToReturn = store.searchNearbyGeoTags(latitude, longitude, searchterm, rad);
 
        } else listToReturn = store.getGeoTagByName(searchterm);
-  }
+
+  } else listToReturn = store.returnGeoTags; //kein searchterm, also gebe alle GeoTags zurueck
 
   res.json(listToReturn);
 })
@@ -137,16 +140,28 @@ router.get('/api/geotags', function (req, res) {
  * The new resource is rendered as JSON in the response.
  */
 
-// TODO: ... your code here ...
 router.post('/api/geotags', function (req, res) {
-  let lat  = req.body.latitude;
-  let long = req.body.longitude;
-  let name = req.body.name;
-  let hash = req.body.hashtag;
+  //Ueberpruefen, ob das gesendete Json nicht leer ist, ansonsten Error 404 werfen
+  if (req.body.constructor === Object && Object.keys(req.body).length !== 0) {
+    let lat  = (typeof req.body.latitude  !== 'undefined') ? req.body.latitude  : null;
+    let long = (typeof req.body.longitude !== 'undefined') ? req.body.longitude : null;
+    let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
+    let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-  let geoTag = store.addGeoTag(lat, long, name, hash);
+    if (lat !== null && long !== null && name !== null && hash !== null) {
+      let newGeotag = store.addGeoTag(lat, long, name, hash);
+      res.json(newGeotag);
 
-  res.json(geoTag);
+    } else res.status(404).send();
+
+    /*
+     * The URL of the new resource is returned in the header as a response.
+     * 
+     * Verstehe nicht ganz was die damit meinen. 
+     * Steht in den Kommentaren dieser Methode, Zeile 139 (Mathieu)
+     */
+
+  } else res.status(404).send();
 });
 
 /**
@@ -163,8 +178,8 @@ router.post('/api/geotags', function (req, res) {
 router.get('/api/geotags/:id', function (req, res) {
   let geoTag = store.getGeoTagById(req.params.id);
 
-  if (geoTag != null) {
-    res.json(geoTag.toJSON());
+  if (geoTag !== null) {
+    res.json(geoTag);
 
   } else res.status(404).send(); //geoTag nicht gefunden, Error.
 });
@@ -185,16 +200,24 @@ router.get('/api/geotags/:id', function (req, res) {
 
 // TODO: ... your code here ...
 router.put('/api/geotags/:id', function (req, res) {
-  let lat  = req.body.latitude;
-  let long = req.body.longitude;
-  let name = req.body.name;
-  let hash = req.body.hashtag;
-  let id   = req.body.id;
+  //Ueberpruefen, ob das gesendete Json nicht leer ist, ansonsten Error 404 werfen
+  if (req.body.constructor === Object && Object.keys(req.body).length !== 0) {
+    //let id   = (typeof req.params.id      !== 'undefined') ? req.params.id      : null;
+    let id   = (typeof req.body.id        !== 'undefined') ? req.body.id        : null;
+    let lat  = (typeof req.body.latitude  !== 'undefined') ? req.body.latitude  : null;
+    let long = (typeof req.body.longitude !== 'undefined') ? req.body.longitude : null;
+    let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
+    let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-  let changedGeoTag = new GeoTag(lat, long, name, hash, id)
+    if (id !== null && lat !== null && long !== null && name !== null && hash !== null) {
+      let changedGeoTag = new GeoTag(lat, long, name, hash, id)
 
-  store.changeGeoTagOf(id, changedGeoTag);
-  res.send(JSON.stringify(changedGeoTag));
+      store.changeGeoTagOf(id, changedGeoTag);
+      res.send(JSON.stringify(changedGeoTag));
+
+    } else res.status(404).send();
+
+  } else res.status(404).send();
 });
 
 /**
@@ -212,11 +235,11 @@ router.put('/api/geotags/:id', function (req, res) {
 router.delete('/api/geotags/:id', function (req, res) {
   let geoTagToRemove = store.getGeoTagById(req.params.id);
 
-  res.json(JSON.stringify(geoTagToRemove));
-
-  if (geoTagToRemove !== undefined) {
+  if (geoTagToRemove !== null) {
+    res.json(JSON.stringify(geoTagToRemove));
     store.removeGeoTag(geoTagToRemove.name());
-  }
+    
+  } else res.status(404).send();
 });
 
 module.exports = router;

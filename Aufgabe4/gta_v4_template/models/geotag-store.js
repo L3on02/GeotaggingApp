@@ -32,7 +32,7 @@ class InMemoryGeoTagStore{
         this.populateWithExamples();
     }
 
-    get returnGeoTags(){
+    get returnGeoTags() {
         return this.#geotags;
     }
 
@@ -86,13 +86,13 @@ class InMemoryGeoTagStore{
 
     //Wegen Aufgabe 4 wurden folgende Methoden noch hinzugefuegt
     //Gibt einen Array mit allen GeoTags, die 'nameToSearch' in ihrem Namen oder Hashtag haben, zurueck
-    getGeoTagByName(nameToSearch) {
+    getGeoTagByName(pName) {
         let result = [];
 
-        for(let i = 0; i < this.#geotags.length; i++) {
-            if (this.#geotags[i].name.toLowerCase().includes(nameToSearch.toLowerCase()) || 
-                this.#geotags[i].hashtag.toLowerCase().includes(nameToSearch.toLowerCase())){
-                result.push(this.#geotags[i]);
+        for(const currGeoTag of this.#geotags) {
+            if (currGeoTag.name.toLowerCase().includes(pName.toLowerCase()) || 
+                currGeoTag.hashtag.toLowerCase().includes(pName.toLowerCase())){
+                result.push(currGeoTag);
             }
         }
 
@@ -101,29 +101,31 @@ class InMemoryGeoTagStore{
 
     //Gibt den GeoTag mit der Id 'idToSearch' zurueck
     getGeoTagById(idToSearch) {
-        let geotagToReturn = "";
+        //let geoTagToReturn = "";
+        let geoTagToReturn = null;
         let idSearch = Number.parseInt(idToSearch);
 
         let i = 0;
         let found = false;
         while (!found) {
-            console.log(this.#geotags[i]);
-            if (this.#geotags[i].id === idSearch){
-                geotagToReturn = this.#geotags[i];
+            //console.log(this.#geotags[i]);
+
+            if (this.#geotags[i].id === idSearch) {
+                geoTagToReturn = this.#geotags[i];
                 found = true;
             }
 
             i += 1;
         }
 
-        return geotagToReturn;
+        return geoTagToReturn;
     }
 
     //Aendert die Attribute von einem GeoTag mit der Id 'id' zu den Attributen vom GeoTag 'newGeoTag'
     changeGeoTagOf(id, newGeoTag) {
         let geoTagToChange = this.getGeoTagById(id);
 
-        geoTagToChange.name  = newGeoTag.name;
+        geoTagToChange.name      = newGeoTag.name;
         geoTagToChange.latitude  = newGeoTag.latitude;
         geoTagToChange.longitude = newGeoTag.longitude;
         geoTagToChange.hashtag   = newGeoTag.hashtag;

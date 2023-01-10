@@ -26,11 +26,11 @@ class GeoTag {
 
     toJSON() {
         return {
+            id: this.#id,
             name: this.#name,
             latitude: this.#latitude,
             longitude: this.#longitude,
-            hashtag: this.#hashtag,
-            id: this.#id
+            hashtag: this.#hashtag
         }
     }
     get name() {
