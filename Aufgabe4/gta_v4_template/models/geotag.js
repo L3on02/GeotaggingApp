@@ -29,8 +29,8 @@ class GeoTag {
             name: this.#name,
             latitude: this.#latitude,
             longitude: this.#longitude,
-            hashtag: this.#hashtag
-            //id: this.#id 
+            hashtag: this.#hashtag,
+            id: this.#id
         }
     }
     get name() {
@@ -47,6 +47,21 @@ class GeoTag {
     }
     get id() {
         return this.#id;
+    }
+    set name(arg) {
+        this.#name = arg;
+    }
+    set hashtag(arg) {
+        this.#hashtag = arg;
+    }
+    set latitude(arg) {
+        this.#latitude = arg;
+    }
+    set longitude(arg) {
+        this.#longitude = arg;
+    }
+    set id(arg) {
+        this.#id = arg;
     }
 }
 

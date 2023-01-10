@@ -110,9 +110,9 @@ module.exports = router;
 router.get('/api/geotags', function (req, res) {
   let listToReturn = [];
 
-  let searchterm = req.body.formSearch;
-  let latitude   = req.body.formLatitude;
-  let longitude  = req.body.formLongitude;
+  let searchterm = req.body.search;
+  let latitude   = req.body.latitude;
+  let longitude  = req.body.longitude;
 
   if (searchterm != null && typeof searchterm === 'string') {
 
@@ -139,16 +139,14 @@ router.get('/api/geotags', function (req, res) {
 
 // TODO: ... your code here ...
 router.post('/api/geotags', function (req, res) {
-  let lat  = req.body.formLatitude;
-  let long = req.body.formLongitude;
-  let name = req.body.formName;
-  let hash = req.body.formHashtag;
+  let lat  = req.body.latitude;
+  let long = req.body.longitude;
+  let name = req.body.name;
+  let hash = req.body.hashtag;
 
-  store.addGeoTag(lat, long, name, hash);
+  let geoTag = store.addGeoTag(lat, long, name, hash);
 
-  let response = store.getNearbyGeoTags(lat, long, rad);
-
-  res.json(response);
+  res.json(geoTag);
 });
 
 /**
@@ -187,16 +185,16 @@ router.get('/api/geotags/:id', function (req, res) {
 
 // TODO: ... your code here ...
 router.put('/api/geotags/:id', function (req, res) {
-  let lat  = req.body.formLatitude;
-  let long = req.body.formLongitude;
-  let name = req.body.formName;
-  let hash = req.body.formHashtag;
-  let id   = req.params.id;
+  let lat  = req.body.latitude;
+  let long = req.body.longitude;
+  let name = req.body.name;
+  let hash = req.body.hashtag;
+  let id   = req.body.id;
 
   let changedGeoTag = new GeoTag(lat, long, name, hash, id)
 
   store.changeGeoTagOf(id, changedGeoTag);
-  res.send(changedGeoTag.toJSON());
+  res.send(JSON.stringify(changedGeoTag));
 });
 
 /**
@@ -214,7 +212,7 @@ router.put('/api/geotags/:id', function (req, res) {
 router.delete('/api/geotags/:id', function (req, res) {
   let geoTagToRemove = store.getGeoTagById(req.params.id);
 
-  res.json(geoTagToRemove.toJSON());
+  res.json(JSON.stringify(geoTagToRemove));
 
   if (geoTagToRemove !== undefined) {
     store.removeGeoTag(geoTagToRemove.name());

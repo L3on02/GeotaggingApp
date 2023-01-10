@@ -37,8 +37,10 @@ class InMemoryGeoTagStore{
     }
 
     addGeoTag(lat, long, name, hash) {
-        this.#geotags.push(new GeoTag(lat,long,name,hash,geotag_id));
+        let geoTag = new GeoTag(lat,long,name,hash,geotag_id);
+        this.#geotags.push(geoTag);
         geotag_id += 1;
+        return geoTag;
     }
 
     removeGeoTag(name) {
@@ -100,11 +102,13 @@ class InMemoryGeoTagStore{
     //Gibt den GeoTag mit der Id 'idToSearch' zurueck
     getGeoTagById(idToSearch) {
         let geotagToReturn = "";
+        let idSearch = Number.parseInt(idToSearch);
 
         let i = 0;
         let found = false;
         while (!found) {
-            if (this.#geotags[i].id == idToSearch){
+            console.log(this.#geotags[i]);
+            if (this.#geotags[i].id === idSearch){
                 geotagToReturn = this.#geotags[i];
                 found = true;
             }
@@ -119,7 +123,7 @@ class InMemoryGeoTagStore{
     changeGeoTagOf(id, newGeoTag) {
         let geoTagToChange = this.getGeoTagById(id);
 
-        geoTagToChange.name      = newGeoTag.name;
+        geoTagToChange.name  = newGeoTag.name;
         geoTagToChange.latitude  = newGeoTag.latitude;
         geoTagToChange.longitude = newGeoTag.longitude;
         geoTagToChange.hashtag   = newGeoTag.hashtag;

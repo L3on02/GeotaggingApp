@@ -12,7 +12,6 @@ console.log("The geoTagging script is going to start...");
 function updateMap(lat,long) {
     const mapData = document.getElementById("mapView");
     const mapElements = JSON.parse(mapData.getAttribute("data-tags"));
-    console.log(mapElements);
 
     let mapMan = new MapManager("IdmV6A5bz5rQU9rQ7KEingAEoaPqIFTA");
     let mapUrl = mapMan.getMapUrl(lat, long,mapElements);
@@ -29,6 +28,7 @@ function updateLocation(location) {
     const tagLong = document.getElementById("tagFormLongitude");
     const disLat = document.getElementById("disFormLatitude");
     const disLong = document.getElementById("disFormLongitude");
+
     if(document.getElementById("tagFormLatitude").value === "") {
         LocationHelper.findLocation(function (locationHelper){
             if (locationHelper.longitude !== undefined && locationHelper.latitude !== undefined) {
@@ -39,7 +39,6 @@ function updateLocation(location) {
             }
             let lat = locationHelper.latitude;
             let long = locationHelper.longitude;
-            console.log(lat,long)
             updateMap(lat,long);
         });
     }

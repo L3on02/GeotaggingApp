@@ -62,7 +62,7 @@ router.post('/tagging', (req, res) => {
   res.render('index', {
     ejs_taglist: taglist,
     ejs_latitude: lat,
-    ejs_longitude:long,
+    ejs_longitude: long,
     json_taglist: JSON.stringify(taglist)
   });
 });
