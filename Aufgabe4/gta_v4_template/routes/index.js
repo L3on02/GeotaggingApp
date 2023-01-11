@@ -230,8 +230,6 @@ router.put('/api/geotags/:id', function (req, res) {
  * Deletes the tag with the corresponding ID.
  * The deleted resource is rendered as JSON in the response.
  */
-
-// TODO: ... your code here ...
 router.delete('/api/geotags/:id', function (req, res) {
   let geoTagToRemove = (typeof req.params.id !== 'undefined') 
                       ? store.getGeoTagById(req.params.id) 
