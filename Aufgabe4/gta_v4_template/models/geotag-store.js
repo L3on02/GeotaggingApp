@@ -85,7 +85,10 @@ class InMemoryGeoTagStore{
     }
 
     //Wegen Aufgabe 4 wurden folgende Methoden noch hinzugefuegt
-    //Gibt einen Array mit allen GeoTags, die 'nameToSearch' in ihrem Namen oder Hashtag haben, zurueck
+    
+    /**
+     * Gibt einen Array mit allen GeoTags, die 'pName' in ihrem Namen oder Hashtag haben, zurueck
+     */
     getGeoTagByName(pName) {
         let result = [];
 
@@ -99,17 +102,16 @@ class InMemoryGeoTagStore{
         return result;
     }
 
-    //Gibt den GeoTag mit der Id 'idToSearch' zurueck
-    getGeoTagById(idToSearch) {
-        //let geoTagToReturn = "";
+    /**
+     * Gibt den GeoTag mit der Id 'pId' zurueck
+     */
+    getGeoTagById(pId) {
         let geoTagToReturn = null;
-        let idSearch = Number.parseInt(idToSearch);
+        let idSearch = Number.parseInt(pId);
 
         let i = 0;
         let found = false;
         while (!found && i < this.#geotags.length) {
-            //console.log(this.#geotags[i]);
-
             if (this.#geotags[i].id === idSearch) {
                 geoTagToReturn = this.#geotags[i];
                 found = true;
@@ -121,14 +123,23 @@ class InMemoryGeoTagStore{
         return geoTagToReturn;
     }
 
-    //Aendert die Attribute von einem GeoTag mit der Id 'id' zu den Attributen vom GeoTag 'newGeoTag'
-    changeGeoTagOf(id, newGeoTag) {
-        let geoTagToChange = this.getGeoTagById(id);
+    /**
+     * Aendert die Attribute von einem GeoTag mit der Id 'pId' zu den Attributen vom GeoTag 'pNewGeoTag'
+     * 
+     * Gibt 'null' zurueck, falls das GeoTag mit 'pId' nicht exisitiert ansonsten das gänderte GeoTag.
+     */ 
+    changeGeoTagOf(pId, pNewGeoTag) {
+        let geoTagToChange = this.getGeoTagById(pId);
 
-        geoTagToChange.name      = newGeoTag.name;
-        geoTagToChange.latitude  = newGeoTag.latitude;
-        geoTagToChange.longitude = newGeoTag.longitude;
-        geoTagToChange.hashtag   = newGeoTag.hashtag;
+        if (geoTagToChange !== null) {
+            geoTagToChange.name      = pNewGeoTag.name;
+            geoTagToChange.latitude  = pNewGeoTag.latitude;
+            geoTagToChange.longitude = pNewGeoTag.longitude;
+            geoTagToChange.hashtag   = pNewGeoTag.hashtag;
+
+            return geoTagToChange;
+
+        } else return null;
     }
 }
 

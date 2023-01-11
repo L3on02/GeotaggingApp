@@ -120,7 +120,7 @@ router.get('/api/geotags', function (req, res) {
 
         listToReturn = store.searchNearbyGeoTags(latitude, longitude, searchterm, rad);
 
-       } else listToReturn = store.getGeoTagByName(searchterm);
+    } else listToReturn = store.getGeoTagByName(searchterm);
 
   } else listToReturn = store.returnGeoTags; //kein searchterm, also gebe alle GeoTags zurueck
 
@@ -154,14 +154,6 @@ router.post('/api/geotags', function (req, res) {
         res.json(newGeotag);
 
     } else res.status(404).send();
-
-    /*
-     * The URL of the new resource is returned in the header as a response.
-     * 
-     * Verstehe nicht ganz was die damit meinen. 
-     * Steht in den Kommentaren dieser Methode, Zeile 139 (Mathieu)
-     */
-
   } else res.status(404).send();
 });
 
@@ -180,7 +172,7 @@ router.get('/api/geotags/:id', function (req, res) {
   if (geoTag !== null) {
     res.json(geoTag);
 
-  } else res.status(404).send(); //geoTag nicht gefunden, Error.
+  } else res.status(404).send();
 });
 
 /**
@@ -205,18 +197,20 @@ router.put('/api/geotags/:id', function (req, res) {
     let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
     let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-    if (id  !== null && 
-       lat  !== null && typeof lat  === 'number' && 
-       long !== null && typeof long === 'number' && 
-       name !== null && typeof name === 'string' && 
-       hash !== null && typeof hash === 'string' && hash.startsWith("#")) {
-      let changedGeoTag = new GeoTag(lat, long, name, hash, id)
-
-      store.changeGeoTagOf(id, changedGeoTag);
-      res.send(JSON.stringify(changedGeoTag));
-
+    if (id !== null && 
+      lat  !== null && typeof lat  === 'number' && 
+      long !== null && typeof long === 'number' && 
+      name !== null && typeof name === 'string' && 
+      hash !== null && typeof hash === 'string' && hash.startsWith("#")) {
+        
+        let newGeoTag = new GeoTag(lat, long, name, hash, id);
+        let geoTagToChange = store.changeGeoTagOf(id, newGeoTag);
+        
+        if (geoTagToChange !== null) {
+          res.send(geoTagToChange);
+          
+        } else res.status(404).send();
     } else res.status(404).send();
-
   } else res.status(404).send();
 });
 
