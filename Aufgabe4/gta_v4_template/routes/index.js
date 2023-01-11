@@ -16,7 +16,7 @@ const GeoTagStore = require('../models/geotag-store');
 
 const router = express.Router();
 const store = new GeoTagStore();
-const rad = 10;
+const rad = 1;
 
 /**
  * The module "geotag" exports a class GeoTagStore. 
@@ -105,8 +105,6 @@ module.exports = router;
  * If 'searchterm' is present, it will be filtered by search term.
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
-
-// TODO: ... your code here ...
 router.get('/api/geotags', function (req, res) {
   let listToReturn = [];
 
@@ -139,7 +137,6 @@ router.get('/api/geotags', function (req, res) {
  * The URL of the new resource is returned in the header as a response.
  * The new resource is rendered as JSON in the response.
  */
-
 router.post('/api/geotags', function (req, res) {
   //Ueberpruefen, ob das gesendete Json nicht leer ist, ansonsten Error 404 werfen
   if (req.body.constructor === Object && Object.keys(req.body).length !== 0) {
@@ -148,9 +145,13 @@ router.post('/api/geotags', function (req, res) {
     let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
     let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-    if (lat !== null && long !== null && name !== null && hash !== null) {
-      let newGeotag = store.addGeoTag(lat, long, name, hash);
-      res.json(newGeotag);
+    if (lat  !== null && typeof lat  === 'number' && 
+        long !== null && typeof long === 'number' && 
+        name !== null && typeof name === 'string' && 
+        hash !== null && typeof hash === 'string' && hash.startsWith("#")) {
+
+        let newGeotag = store.addGeoTag(lat, long, name, hash);
+        res.json(newGeotag);
 
     } else res.status(404).send();
 
@@ -173,8 +174,6 @@ router.post('/api/geotags', function (req, res) {
  *
  * The requested tag is rendered as JSON in the response.
  */
-
-// TODO: ... your code here ...
 router.get('/api/geotags/:id', function (req, res) {
   let geoTag = store.getGeoTagById(req.params.id);
 
@@ -197,19 +196,20 @@ router.get('/api/geotags/:id', function (req, res) {
  * Changes the tag with the corresponding ID to the sent value.
  * The updated resource is rendered as JSON in the response. 
  */
-
-// TODO: ... your code here ...
 router.put('/api/geotags/:id', function (req, res) {
   //Ueberpruefen, ob das gesendete Json nicht leer ist, ansonsten Error 404 werfen
   if (req.body.constructor === Object && Object.keys(req.body).length !== 0) {
-    //let id   = (typeof req.params.id      !== 'undefined') ? req.params.id      : null;
-    let id   = (typeof req.body.id        !== 'undefined') ? req.body.id        : null;
+    let id   = (typeof req.params.id      !== 'undefined') ? req.params.id      : null;
     let lat  = (typeof req.body.latitude  !== 'undefined') ? req.body.latitude  : null;
     let long = (typeof req.body.longitude !== 'undefined') ? req.body.longitude : null;
     let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
     let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-    if (id !== null && lat !== null && long !== null && name !== null && hash !== null) {
+    if (id  !== null && 
+       lat  !== null && typeof lat  === 'number' && 
+       long !== null && typeof long === 'number' && 
+       name !== null && typeof name === 'string' && 
+       hash !== null && typeof hash === 'string' && hash.startsWith("#")) {
       let changedGeoTag = new GeoTag(lat, long, name, hash, id)
 
       store.changeGeoTagOf(id, changedGeoTag);
@@ -233,11 +233,13 @@ router.put('/api/geotags/:id', function (req, res) {
 
 // TODO: ... your code here ...
 router.delete('/api/geotags/:id', function (req, res) {
-  let geoTagToRemove = store.getGeoTagById(req.params.id);
+  let geoTagToRemove = (typeof req.params.id !== 'undefined') 
+                      ? store.getGeoTagById(req.params.id) 
+                      : null;
 
   if (geoTagToRemove !== null) {
-    res.json(JSON.stringify(geoTagToRemove));
-    store.removeGeoTag(geoTagToRemove.name());
+    res.json(geoTagToRemove);
+    store.removeGeoTag(geoTagToRemove.name);
     
   } else res.status(404).send();
 });

@@ -107,7 +107,7 @@ class InMemoryGeoTagStore{
 
         let i = 0;
         let found = false;
-        while (!found) {
+        while (!found && i < this.#geotags.length) {
             //console.log(this.#geotags[i]);
 
             if (this.#geotags[i].id === idSearch) {
