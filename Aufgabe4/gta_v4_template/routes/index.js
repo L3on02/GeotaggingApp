@@ -153,7 +153,7 @@ router.post('/api/geotags', function (req, res) {
         let newGeotag = store.addGeoTag(lat, long, name, hash);
         res.json(newGeotag);
 
-    } else res.status(404).send();
+    } else res.status(404).send(); //Todo: Uri als Json vepackt anhängen -> falsch nochmal nachschauen
   } else res.status(404).send();
 });
 
