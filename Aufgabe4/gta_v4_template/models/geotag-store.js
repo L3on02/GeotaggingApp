@@ -141,6 +141,24 @@ class InMemoryGeoTagStore{
 
         } else return null;
     }
+
+    /**
+     * @author david
+     *
+     * Sucht in allen geotags nach einem namen oder hashtag der mit den eingegebenen Buchstaben übereinstimmt.
+     *
+     * @param searchInput
+     * @returns {*[]}
+     */
+    searchForInput(searchInput) {
+        let result = [];
+        for(let i = 0; i < this.#geotags.length; i++) {
+            if ((this.#geotags[i].name.toLowerCase().includes(searchInput.toLowerCase()) || this.#geotags[i].hashtag.toLowerCase().includes(searchInput.toLowerCase()))){
+                result.push(this.#geotags[i]);
+            }
+        }
+        return result;
+    }
 }
 
 module.exports = InMemoryGeoTagStore

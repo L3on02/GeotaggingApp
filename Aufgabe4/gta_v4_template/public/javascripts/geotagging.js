@@ -20,14 +20,19 @@ function updateMap(lat,long) {
     mapData.src = mapUrl;
 }
 
-// Funktion für updating the map after a tagging or discovery
+/**
+ * updates the map after a tagging or a discovery action
+ *
+ * @param geotags
+ * @returns {*}
+ */
 function updateMap2(geotags) {
     const mapData = document.getElementById("mapView");
     console.log("log1" + mapData.getAttribute("data-tags"));
     console.log("log2" + geotags);
 
     let lat = parseFloat(document.getElementById("tagFormLatitude").value);
-    let long = parseFloat(document.getElementById("tagFormLatitude").value);
+    let long = parseFloat(document.getElementById("tagFormLongitude").value);
     console.log(lat, long);
 
     let mapMan = new MapManager("IdmV6A5bz5rQU9rQ7KEingAEoaPqIFTA");
@@ -37,10 +42,27 @@ function updateMap2(geotags) {
     return geotags;
 }
 
-// update the list of geotags
+/**
+ * updates the list of geotags after a tagging or a discovery action
+ *
+ * @param geotags
+ * @returns {number}
+ */
 function updateList(geotags) {
-    let liste = JSON.parse(geotags);
-    console.log("Hallo updateList");
+    let list = JSON.parse(geotags); // parse input string to json
+
+    let ul = document.getElementById("discoveryResults");
+    ul.innerHTML = "";
+    // loop through the list of geotag elements and create a list entry for each
+    list.forEach(function (gtag){
+        let li = document.createElement("li");
+        li.innerHTML = gtag.name + "</br> (" + gtag.latitude + "," + gtag.longitude + ") </br>" + gtag.hashtag;
+        li.classList.add("listElement")
+        ul.appendChild(li);
+    })
+    // delete the tagging inputs
+    document.getElementById("tagFormName").value="";
+    document.getElementById("tagFormHashtag").value="";
 
     return parseInt(document.getElementById("discoveryResults").innerHTML);
 }
@@ -49,7 +71,6 @@ function updateList(geotags) {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
-
 function updateLocation() {
     const tagLat = document.getElementById("tagFormLatitude");
     const tagLong = document.getElementById("tagFormLongitude");
@@ -77,8 +98,12 @@ function updateLocation() {
     }
 }
 
-// asycronous functions
-// tagging
+/**
+ * asynchrone Funkion für tagging event-listener
+ *
+ * @param geotag
+ * @returns {Promise<any>}
+ */
 async function tagging(geotag){
     let response = await fetch("http://localhost:3000/api/geotags", {
         method: "POST",
@@ -88,42 +113,46 @@ async function tagging(geotag){
     return await response.json();
 }
 
-// discovery
-async function discovery(){
-    let search = await document.getElementById("disFormSearch").value;
-    let geotag = await fetch("http://localhost:3000/api/geotags/" + search);
-    geotag = await geotag.json();
-    geotag = JSON.parse(geotag);
-
-    let latitude = geotag.location.latitude;
-    let longitude = geotag.location.longitude;
-    let response = await fetch("http://localhost:3000/api/geotags?latitude=" + latitude + "&longitude=" + longitude + "&searchterm=" + search);
-    // todo: was kommt hier als rückgabewert raus
-    console.log("Hallo async discovery");
+/**
+ * asynchrone Funkion für discovery event-listener
+ *
+ * @param searchInput
+ * @returns {Promise<any>}
+ */
+async function discovery(searchInput){
+    let response = await fetch("http://localhost:3000/api/geotags/" + searchInput,{
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    });
 
     return await response.json();
 }
 
+/**
+ * event-listener für den Tagging Submit Button
+ */
+document.getElementById("tagFormSubmitButton").addEventListener("click", function (evt) {
+    evt.preventDefault();// blocks default event handling
 
-// event-listener: tagging
-document.getElementById("tag-form").addEventListener("submit", function (evt) {
-    evt.preventDefault();
     let geotag = {
         name: document.getElementById("tagFormName").value,
         latitude: document.getElementById("tagFormLatitude").value,
         longitude: document.getElementById("tagFormLongitude").value,
         hashtag: document.getElementById("tagFormHashtag").value
     }
-    console.log("tag: " + geotag);
-    tagging(geotag).then(updateMap2).then(updateList);//.catch(error => alert("Search term does not exist"));
+
+    tagging(geotag).then(updateMap2).then(updateList);
 });
 
-// event-listener: discovery
-document.getElementById("discoveryFilterForm").addEventListener("submit", function (evt) {
+/**
+ * event-listener für den Discovery Submit Button
+ */
+document.getElementById("disFormSubmitButton").addEventListener("click", function (evt) {
     evt.preventDefault();
-    console.log("Hallo discovery listener");
 
-    discovery().then(updateMap2).then(updateList).catch(error => alert("Search term does not exist"));
+    let searchTerm = document.getElementById("disFormSearch").value;
+
+    discovery(searchTerm).then(updateMap2).then(updateList).catch(error => alert("Search term does not exist"));
 });
 
 // Wait for the page to fully load its DOM content, then call updateLocation
