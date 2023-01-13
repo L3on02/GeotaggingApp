@@ -7,10 +7,10 @@ const fs = require('fs'),
 	server = net.createServer(function(connection) {
 		// Bei einer neuen Verbindung wird diese Funktion ausgeführt
 		console.log("Subscriber connected");
-		connection.write("Now watching " + filename + " for changes\n");
+		connection.write("Now watching " + filename + " for changes\r\n");
 		var watcher = fs.watch(filename, function() {
 			connection.write("File " + filename + " has changed: " + Date.now() +
-				"\n");
+				"\r\n");
 		});
 
 		// Beim schließen der Verbindung wird folgende Funktion ausgeführt

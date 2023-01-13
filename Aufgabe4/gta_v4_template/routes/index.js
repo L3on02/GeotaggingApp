@@ -140,21 +140,23 @@ router.get('/api/geotags', function (req, res) {
 router.post('/api/geotags', function (req, res) {
   //Ueberpruefen, ob das gesendete Json nicht leer ist, ansonsten Error 404 werfen
   if (req.body.constructor === Object && Object.keys(req.body).length !== 0) {
-    let lat  = (typeof req.body.latitude  !== 'undefined') ? req.body.latitude  : null;
-    let long = (typeof req.body.longitude !== 'undefined') ? req.body.longitude : null;
+    let lat  = (typeof req.body.latitude  !== 'undefined') ? parseFloat(req.body.latitude)  : null;
+    let long = (typeof req.body.longitude !== 'undefined') ? parseFloat(req.body.longitude) : null;
     let name = (typeof req.body.name      !== 'undefined') ? req.body.name      : null;
     let hash = (typeof req.body.hashtag   !== 'undefined') ? req.body.hashtag   : null;
 
-    if (lat  !== null && typeof lat  === 'number' && 
-        long !== null && typeof long === 'number' && 
-        name !== null && typeof name === 'string' && 
-        hash !== null && typeof hash === 'string' && hash.startsWith("#")) {
+    console.log("lat: "+lat + "; long: "+long +"; name:" + name +"; hash: "+hash);
+    if (lat  !== null && typeof lat  === 'number' &&
+        long !== null && typeof long === 'number' &&
+        name !== null && typeof name === 'string' &&
+        (hash === '' || (typeof hash === 'string' && hash.startsWith("#")))) {
 
-        let newGeotag = store.addGeoTag(lat, long, name, hash);
-        res.json(newGeotag);
+      let newGeotag = store.addGeoTag(lat, long, name, hash);
+      res.append('location',"/api/geotags/" + newGeotag.id);
+      res.status(201).json(JSON.stringify(store.returnGeoTags));
 
-    } else res.status(404).send(); //Todo: Uri als Json vepackt anhängen -> falsch nochmal nachschauen
-  } else res.status(404).send();
+    } else res.status(404).send();
+  } else res.status(405).send();
 });
 
 /**

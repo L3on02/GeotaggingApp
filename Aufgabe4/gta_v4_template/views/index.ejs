@@ -49,8 +49,7 @@
 
     <section class="main__discovery discovery col-9">
         <h2 class="title">Discovery</h2>
-
-        <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
+        <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post" onsubmit="event.preventDefault();">
 
             <fieldset class="fieldset" id="disFormFieldset">
                 <legend>Search:</legend>
@@ -95,4 +94,3 @@
 </body>
 
 </html>
-
