@@ -10,24 +10,38 @@
 console.log("The geoTagging script is going to start...");
 
 const paginatedList = document.getElementById("discoveryResults");
-let listItems = paginatedList.querySelectorAll("li");
 const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
-
+const addTagButton = document.getElementById("tagFormSubmitButton");
+const searchButton = document.getElementById("disFormSubmitButton");
 const paginationLimit = 5;
+
+let listItems = paginatedList.querySelectorAll("li");
 let pageCount = Math.ceil(listItems.length / paginationLimit);
 let currentPage = 1;
 
+
+/**
+ * disables button a given button
+ * @param button
+ */
 const disableButton = (button) => {
     button.classList.add("disabled");
     button.setAttribute("disabled", true);
 };
 
+/**
+ * enables button a given button
+ * @param button
+ */
 const enableButton = (button) => {
     button.classList.remove("disabled");
     button.removeAttribute("disabled");
 };
 
+/**
+ * disables the prev button when on page 1 and the next button when on last page
+ * */
 const handlePageButtonsStatus = () => {
     if (currentPage === 1) {
         disableButton(prevButton);
@@ -42,25 +56,34 @@ const handlePageButtonsStatus = () => {
     }
 };
 
-const setCurrentPage = (pageNum) => {
+/**
+ * function with ajax call
+ *
+ * @param pageNum
+ */
+const retrieveListElements = (pageNum) => {
     currentPage = pageNum;
 
     handlePageButtonsStatus();
 
     const prevRange = (pageNum - 1) * paginationLimit;
     const currRange = pageNum * paginationLimit;
-
+    let Item = fetchPaginationTags(currentPage);
     listItems.forEach((item, index) => {
         item.classList.add("hidden");
         if (index >= prevRange && index < currRange) {
             item.classList.remove("hidden");
         }
     });
+    console.log(Item);
 };
 
+/**
+ * calculates the new number of pages and set the current page
+ */
 function updatePage(){
     pageCount = Math.ceil(listItems.length / paginationLimit);
-    setCurrentPage(currentPage);
+    retrieveListElements(currentPage);
 }
 
 // function for updating the map
@@ -184,12 +207,17 @@ async function discovery(searchInput){
     console.log(response);
     return await response.json();
 }
-
+async function fetchPaginationTags(page) {
+    let response = await fetch("http://localhost:3000/api/geotags/",{
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    });
+}
 /**
  * event-listener für den Tagging Submit Button
  */
-document.getElementById("tagFormSubmitButton").addEventListener("click", function (evt) {
-    evt.preventDefault();// blocks default event handling
+addTagButton.addEventListener("submit", function (event) {
+    event.preventDefault();// blocks default event handling
 
     let geotag = {
         name: document.getElementById("tagFormName").value,
@@ -199,14 +227,13 @@ document.getElementById("tagFormSubmitButton").addEventListener("click", functio
     }
 
     tagging(geotag).then(updateMap2).then(updateList).then(updatePage);
-    console.log(listItems);
 });
 
 /**
  * event-listener für den Discovery Submit Button
  */
-document.getElementById("disFormSubmitButton").addEventListener("click", function (evt) {
-    evt.preventDefault();
+searchButton.addEventListener("submit", function (event) {
+    event.preventDefault();
 
     currentPage = 1;
 
@@ -216,11 +243,11 @@ document.getElementById("disFormSubmitButton").addEventListener("click", functio
 });
 
 prevButton.addEventListener("click", () => {
-    setCurrentPage(currentPage - 1);
+    retrieveListElements(currentPage - 1);
 });
 
 nextButton.addEventListener("click", () => {
-    setCurrentPage(currentPage + 1);
+    retrieveListElements(currentPage + 1);
 });
 
 // Wait for the page to fully load its DOM content, then call updateLocation

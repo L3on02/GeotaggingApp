@@ -38,9 +38,9 @@
 
                 <label for="tagFormHashtag">Hashtag:</label>
                 <input type="text" id="tagFormHashtag" class="userInput" name="formHashtag" pattern="#[a-zA-Z]+|#" maxlength="11" placeholder="e.g. #ber">
-                                                                                                        <!-- maxlength auf 11 wegen dem Hashtag -->
+                <!-- maxlength auf 11 wegen dem Hashtag -->
 
-                <input type="button" id="tagFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Add Tag">
+                <input type="submit" id="tagFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Add Tag">
             </fieldset>
 
         </form>
@@ -49,7 +49,7 @@
 
     <section class="main__discovery discovery col-9">
         <h2 class="title">Discovery</h2>
-        <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post" onsubmit="event.preventDefault();">
+        <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
             <fieldset class="fieldset" id="disFormFieldset">
                 <legend>Search:</legend>
@@ -61,7 +61,7 @@
                     <input type="hidden" id="disFormLatitude" name="formLatitude" required="required" value="<%= ejs_latitude%>">
                     <input type="hidden" id="disFormLongitude" name="formLongitude" required="required" value="<%= ejs_longitude%>">
 
-                    <input type="button" id="disFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Search">
+                    <input type="submit" id="disFormSubmitButton" class="userInput submit" name="formSubmitButton" value="Search">
                 </div>
             </fieldset>
 
@@ -70,9 +70,9 @@
         <div class="discovery__wrapper row">
             <div class="discovery__taglist col-4">
                 <ul class="discovery__results" id="discoveryResults">
-                        <% if (ejs_taglist !== undefined) ejs_taglist.forEach(function(gtag) { %>
-                               <li class="listElement"><%= gtag.name %> <br> (<%= gtag.latitude %>, <%= gtag.longitude %>) <br> <%= gtag.hashtag %> </li>
-                        <% }); %>
+                    <% if (ejs_taglist !== undefined) ejs_taglist.forEach(function(gtag) { %>
+                        <li class="listElement"><%= gtag.name %> <br> (<%= gtag.latitude %>, <%= gtag.longitude %>) <br> <%= gtag.hashtag %> </li>
+                    <% }); %>
                 </ul>
                 <nav class="pagination-container">
                     <button class="pagination-button" id="prev-button" title="Previous page">

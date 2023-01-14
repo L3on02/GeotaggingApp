@@ -106,23 +106,7 @@ module.exports = router;
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 router.get('/api/geotags', function (req, res) {
-  let listToReturn = [];
-
-  //Ueberpruefen, dass die ganzen Attribute des Json nicht leer sind
-  let searchterm = (typeof req.body.searchterm !== 'undefined') ? req.body.searchterm : null;
-  let latitude   = (typeof req.body.latitude   !== 'undefined') ? req.body.latitude   : null;
-  let longitude  = (typeof req.body.longitude  !== 'undefined') ? req.body.longitude  : null;
-
-  if (searchterm !== null && typeof searchterm === 'string') {
-
-    if (latitude !== null && typeof latitude  === 'number' &&
-       longitude !== null && typeof longitude === 'number') {
-
-        listToReturn = store.searchNearbyGeoTags(latitude, longitude, searchterm, rad);
-
-    } else listToReturn = store.getGeoTagByName(searchterm);
-
-  } else listToReturn = store.returnGeoTags; //kein searchterm, also gebe alle GeoTags zurueck
+  let listToReturn = store.returnGeoTags;
 
   res.json(listToReturn);
 })
