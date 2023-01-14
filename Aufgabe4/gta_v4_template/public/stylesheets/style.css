@@ -202,6 +202,31 @@ main{
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
 }
+/*
+for pagination
+ */
+
+.hidden {
+  display: none;
+}
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-button{
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background-color: cornflowerblue;
+  border: none;
+  margin: 0.25rem 0.25rem 0.5rem;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: .2rem;
+}
 
 /* Styles for Footer Component */
 

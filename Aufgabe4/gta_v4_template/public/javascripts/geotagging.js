@@ -9,6 +9,60 @@
 // Try to find this output in the browser...
 console.log("The geoTagging script is going to start...");
 
+const paginatedList = document.getElementById("discoveryResults");
+let listItems = paginatedList.querySelectorAll("li");
+const nextButton = document.getElementById("next-button");
+const prevButton = document.getElementById("prev-button");
+
+const paginationLimit = 5;
+let pageCount = Math.ceil(listItems.length / paginationLimit);
+let currentPage = 1;
+
+const disableButton = (button) => {
+    button.classList.add("disabled");
+    button.setAttribute("disabled", true);
+};
+
+const enableButton = (button) => {
+    button.classList.remove("disabled");
+    button.removeAttribute("disabled");
+};
+
+const handlePageButtonsStatus = () => {
+    if (currentPage === 1) {
+        disableButton(prevButton);
+    } else {
+        enableButton(prevButton);
+    }
+
+    if (pageCount === currentPage) {
+        disableButton(nextButton);
+    } else {
+        enableButton(nextButton);
+    }
+};
+
+const setCurrentPage = (pageNum) => {
+    currentPage = pageNum;
+
+    handlePageButtonsStatus();
+
+    const prevRange = (pageNum - 1) * paginationLimit;
+    const currRange = pageNum * paginationLimit;
+
+    listItems.forEach((item, index) => {
+        item.classList.add("hidden");
+        if (index >= prevRange && index < currRange) {
+            item.classList.remove("hidden");
+        }
+    });
+};
+
+function updatePage(){
+    pageCount = Math.ceil(listItems.length / paginationLimit);
+    setCurrentPage(currentPage);
+}
+
 // function for updating the map
 function updateMap(lat,long) {
     const mapData = document.getElementById("mapView");
@@ -64,6 +118,8 @@ function updateList(geotags) {
     document.getElementById("tagFormName").value="";
     document.getElementById("tagFormHashtag").value="";
 
+    listItems = paginatedList.querySelectorAll("li");
+
     return parseInt(document.getElementById("discoveryResults").innerHTML);
 }
 
@@ -72,6 +128,7 @@ function updateList(geotags) {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
+    updatePage();
     const tagLat = document.getElementById("tagFormLatitude");
     const tagLong = document.getElementById("tagFormLongitude");
     const disLat = document.getElementById("disFormLatitude");
@@ -124,7 +181,7 @@ async function discovery(searchInput){
         method: "GET",
         headers: {"Content-Type": "application/json"}
     });
-
+    console.log(response);
     return await response.json();
 }
 
@@ -141,7 +198,8 @@ document.getElementById("tagFormSubmitButton").addEventListener("click", functio
         hashtag: document.getElementById("tagFormHashtag").value
     }
 
-    tagging(geotag).then(updateMap2).then(updateList);
+    tagging(geotag).then(updateMap2).then(updateList).then(updatePage);
+    console.log(listItems);
 });
 
 /**
@@ -150,9 +208,19 @@ document.getElementById("tagFormSubmitButton").addEventListener("click", functio
 document.getElementById("disFormSubmitButton").addEventListener("click", function (evt) {
     evt.preventDefault();
 
+    currentPage = 1;
+
     let searchTerm = document.getElementById("disFormSearch").value;
 
-    discovery(searchTerm).then(updateMap2).then(updateList).catch(error => alert("Search term does not exist"));
+    discovery(searchTerm).then(updateMap2).then(updateList).then(updatePage).catch(error => alert("Search term does not exist"));
+});
+
+prevButton.addEventListener("click", () => {
+    setCurrentPage(currentPage - 1);
+});
+
+nextButton.addEventListener("click", () => {
+    setCurrentPage(currentPage + 1);
 });
 
 // Wait for the page to fully load its DOM content, then call updateLocation

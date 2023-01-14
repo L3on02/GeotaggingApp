@@ -74,6 +74,14 @@
                                <li class="listElement"><%= gtag.name %> <br> (<%= gtag.latitude %>, <%= gtag.longitude %>) <br> <%= gtag.hashtag %> </li>
                         <% }); %>
                 </ul>
+                <nav class="pagination-container">
+                    <button class="pagination-button" id="prev-button" title="Previous page">
+                        &lt;
+                    </button>
+                    <button class="pagination-button" id="next-button" title="Next page">
+                        &gt;
+                    </button>
+                </nav>
             </div>
 
             <div class="discovery__map col-8">
