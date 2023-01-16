@@ -176,7 +176,7 @@ router.get('/api/geotags/:id', function (req, res) {
   let pathArray = req.path.split("/");
   let searchInput = pathArray[pathArray.length - 1]; // last part of path
   if(typeof searchInput == "number"){
-    let geoTag = store.getGeoTagById(req.params.id);
+    let geoTag = store.getGeoTagById(searchInput);
     res.json(geoTag);
   }else if(typeof searchInput == "string"){
     let geotags = store.searchForInput(searchInput);
