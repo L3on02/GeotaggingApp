@@ -159,6 +159,18 @@ class InMemoryGeoTagStore{
         }
         return result;
     }
+
+    searchForInput(searchInput) {
+        let result = null;
+        if(this.isNumeric(searchInput)) {
+            result = this.getGeoTagById(searchInput);
+        }else if (this.isAllLetter(searchInput)) {
+            result = this.getGeoTagByName(searchInput);
+        }
+        return result;
+    }
+    isNumeric(value){return /^\d+$/.test(value);}
+    isAllLetter(string){return /^[A-Za-z]+$/.test(string);}
 }
 
 module.exports = InMemoryGeoTagStore

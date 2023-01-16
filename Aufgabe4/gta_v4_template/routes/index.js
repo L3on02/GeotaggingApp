@@ -173,15 +173,16 @@ router.post('/api/geotags', function (req, res) {
  * The requested tag is rendered as JSON in the response.
  */
 router.get('/api/geotags/:id', function (req, res) {
-  let pathArray = req.path.split("/");
-  //let searchInput = pathArray[pathArray.length - 1]; // last part of path
-  let searchInput = req.params[0];
-  if(typeof searchInput == "number"){
-    let geoTag = store.getGeoTagById(searchInput);
-    res.json(geoTag);
-  }else if(typeof searchInput == "string"){
-    let geotags = store.searchForInput(searchInput);
-    res.json(JSON.stringify(geotags));
+  let searchInput = req.params.id;
+  console.log(searchInput);
+  let geoTags = [];
+  geoTags.push(store.searchForInput(searchInput));
+  console.log(geoTags);
+
+  if(geoTags.length === 1){
+    res.json(geoTags);
+  }else if(geoTags.length >1){
+    res.json(JSON.stringify(geoTags));
   }else {
     res.status(404).send();
   }
