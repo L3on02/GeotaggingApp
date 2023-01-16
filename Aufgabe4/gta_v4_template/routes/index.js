@@ -106,7 +106,27 @@ module.exports = router;
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 router.get('/api/geotags', function (req, res) {
-  let listToReturn = store.returnGeoTags;
+  //let listToReturn = store.returnGeoTags;
+
+  //res.json(listToReturn);
+
+  let listToReturn = [];
+
+  //Ueberpruefen, dass die ganzen Attribute des Json nicht leer sind
+  let searchterm = (typeof req.body.searchterm !== 'undefined') ? req.body.searchterm : null;
+  let latitude   = (typeof req.body.latitude   !== 'undefined') ? req.body.latitude   : null;
+  let longitude  = (typeof req.body.longitude  !== 'undefined') ? req.body.longitude  : null;
+
+  if (searchterm !== null && typeof searchterm === 'string') {
+
+    if (latitude !== null && typeof latitude  === 'number' &&
+        longitude !== null && typeof longitude === 'number') {
+
+      listToReturn = store.searchNearbyGeoTags(latitude, longitude, searchterm, rad);
+
+    } else listToReturn = store.getGeoTagByName(searchterm);
+
+  } else listToReturn = store.returnGeoTags; //kein searchterm, also gebe alle GeoTags zurueck
 
   res.json(listToReturn);
 })
@@ -153,13 +173,17 @@ router.post('/api/geotags', function (req, res) {
  * The requested tag is rendered as JSON in the response.
  */
 router.get('/api/geotags/:id', function (req, res) {
-   let pathArray = req.path.split("/");
-   let searchInput = pathArray[pathArray.length - 1]; // last part of path
-   let geotags = store.searchForInput(searchInput);
-
-  if (geotags !== null) {
+  let pathArray = req.path.split("/");
+  let searchInput = pathArray[pathArray.length - 1]; // last part of path
+  if(typeof searchInput == "number"){
+    let geoTag = store.getGeoTagById(req.params.id);
+    res.json(geoTag);
+  }else if(typeof searchInput == "string"){
+    let geotags = store.searchForInput(searchInput);
     res.json(JSON.stringify(geotags));
-  } else res.status(404).send();
+  }else {
+    res.status(404).send();
+  }
 });
 
 /**
