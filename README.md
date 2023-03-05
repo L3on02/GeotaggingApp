@@ -10,4 +10,4 @@ Die **Geo Tagging App** (kurz GT-App oder GTA): eine [Social Sharing App](https:
 
 - In einer *Discovery Liste* werden die GeoTags der aktuellen Umgebung angezeigt. GeoTags der Umgebung können zudem über Name oder Hashtag gefiltert werden.
 
-![Screenshot](Screenshot GeotagApp.png)
+![Screenshot](GeotagApp.png)
