@@ -1,7 +1,3 @@
-# GEOTAGGINGAPP - Laborübungen Verteilte Systeme 1
-
-Ziel des Labors ist die praktische Anwendung verschiedener Web Technologien aus der Vorlesung. Dazu wird in mehreren Schritten eine komplette Web Anwendung erstellt. In jedem Schritt wird jeweils ein Bereich von Web Technologien genauer betrachtet.
-
 ## Die Geo Tagging App (GTA)
 
 Die **Geo Tagging App** (kurz GT-App oder GTA): eine [Social Sharing App](https://de.wikipedia.org/wiki/Media_Sharing) für interessante Orte. Die App verwaltet **GeoTags** (= Locations mit Hashtags). Dies beinhaltet zwei Hauptaktivitäten: das Anlegen (*Tagging*) und die Suche (*Discovery*) von GeoTags, die wie folgt umgesetzt werden:
